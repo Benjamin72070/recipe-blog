@@ -1,8 +1,10 @@
 import { defineCollection, z } from "astro:content";
+import { glob } from 'astro/loaders'; // 1. Import the modern file locator tool
 
 //Define the rulebook for the recipes collection
 const recipesCollection = defineCollection({
-    type: 'content', // Specifies that this collection reads Markdown/MDX files
+      // 2. Tell Astro to hunt for markdown files inside your folder
+    loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/recipes' }),
     schema: z.object({
         title: z.string(),
         description: z.string(),
