@@ -11,9 +11,12 @@ const recipesCollection = defineCollection({
         prepTime: z.string(),
         cookTime: z.string(),
         servings: z.number().int().min(1),
+        servingSize: z.string(),
         sodiumContent: z.number().int().nonnegative(),
         potassiumContent: z.number().int().nonnegative(),
         fatContent: z.number().nonnegative(),
+        storage: z.string().optional(),
+        notes: z.string().optional(),
         ingredients: z.array(
                         z.object({
                             name: z.string(),
@@ -22,18 +25,20 @@ const recipesCollection = defineCollection({
                                 "tsp", "tbsp", "cup", "fl oz",
                                 "pint", "quart", "gallon",
                                 "oz", "lb", "each"
-            ]).optional(),
-                preparation: z.string().optional(),
-            }).refine(
-                (ingredient) =>
-                    ingredient.quantity === undefined ||
-                    ingredient.unit !== undefined,
-                {
-                    message: "A measured quantity must have a unit.",
-                    path: ["unit"],
-                }
+                            ]).optional(),
+                            preparation: z.string().optional(),
+                        }).refine(
+                            (ingredient) =>
+                                ingredient.quantity === undefined ||
+                                ingredient.unit !== undefined,
+                            {
+                                message: "A measured quantity must have a unit.",
+                                path: ["unit"],
+                            }
             )
         ).min(1, { message: "At least one ingredient is required." }),
+        instructions: z.array(
+            z.string().trim().min(1)).min(1)
     })
 });
 
