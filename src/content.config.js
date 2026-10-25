@@ -13,15 +13,15 @@ const recipesCollection = defineCollection({
         servings: z.number().int().nonnegative(),
         sodiumContent: z.number().int().nonnegative(),
         potassiumContent: z.number().int().nonnegative(),
-        fatContent: z.number().int().nonnegative(),
+        fatContent: z.number().nonnegative(),
         ingredients: z.array(
-            ` `        z.object({
-                name: z.string(),
-                quantity: z.number().nonnegative(),
-                unit: z.enum([
-                        "tsp", "tbsp", "cup", "fl oz",
-                        "pint", "quart", "gallon",
-                        "oz", "lb", "each"
+                        z.object({
+                            name: z.string(),
+                            quantity: z.number().nonnegative(),
+                            unit: z.enum([
+                                "tsp", "tbsp", "cup", "fl oz",
+                                "pint", "quart", "gallon",
+                                "oz", "lb", "each"
             ]),
                 preparation: z.string().optional(),
             })
