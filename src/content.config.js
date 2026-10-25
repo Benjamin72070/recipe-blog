@@ -10,7 +10,7 @@ const recipesCollection = defineCollection({
         description: z.string(),
         prepTime: z.string(),
         cookTime: z.string(),
-        servings: z.number().int().nonnegative(),
+        servings: z.number().int().min(1),
         sodiumContent: z.number().int().nonnegative(),
         potassiumContent: z.number().int().nonnegative(),
         fatContent: z.number().nonnegative(),
