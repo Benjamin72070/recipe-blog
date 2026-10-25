@@ -17,14 +17,22 @@ const recipesCollection = defineCollection({
         ingredients: z.array(
                         z.object({
                             name: z.string(),
-                            quantity: z.number().nonnegative(),
+                            quantity: z.number().nonnegative().optional(),
                             unit: z.enum([
                                 "tsp", "tbsp", "cup", "fl oz",
                                 "pint", "quart", "gallon",
                                 "oz", "lb", "each"
-            ]),
+            ]).optional(),
                 preparation: z.string().optional(),
-            })
+            }).refine(
+                (ingredient) =>
+                    ingredient.quantity === undefined ||
+                    ingredient.unit !== undefined,
+                {
+                    message: "A measured quantity must have a unit.",
+                    path: ["unit"],
+                }
+            )
         ).min(1, { message: "At least one ingredient is required." }),
     })
 });
